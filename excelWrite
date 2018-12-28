@@ -68,35 +68,30 @@ public class ExcelReport {
 		    }
 		}
 	
-	public static void dataMismatch(String path,String source,String target,int rowIndex,String ColumnName,String PrimaryKey) throws IOException {
-
-        try {
-
-            FileInputStream file = new FileInputStream(new File(path));
-
-            workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(1);
-            Cell cell = null;
-
-            //Update the value of cell
-            cell = sheet.getRow(2).getCell(2);
-            cell.setCellValue(cell.getNumericCellValue() * 2);
-            cell = sheet.getRow(2).getCell(2);
-            cell.setCellValue(cell.getNumericCellValue() * 2);
-            Row row = sheet.getRow(0);
-            row.createCell(3).setCellValue("Value 2");
-
-            file.close();
-
-            FileOutputStream outFile =new FileOutputStream(new File("C:\\update.xls"));
-            workbook.write(outFile);
-            outFile.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public static void write(String Path,int rowIndex,String primaryKey,String columnName,String source,String target){
+		   try
+		   {
+		       FileInputStream fis = new FileInputStream(Path);
+		       XSSFWorkbook workbook = new XSSFWorkbook(fis);
+		       XSSFSheet worksheet = workbook.getSheetAt(1);
+		       Row row = worksheet.createRow(rowIndex);
+		       /*for(int j=0;j<=array.length;j++)
+		       {
+		       row.createCell(j).setCellValue(array[j]);
+		       }*/
+		       row.createCell(0).setCellValue(primaryKey);
+		       row.createCell(1).setCellValue(columnName);
+		       row.createCell(2).setCellValue(source);
+		       row.createCell(3).setCellValue(target);
+		       fis.close();
+		       FileOutputStream fos =new FileOutputStream(new File(Path));
+		       workbook.write(fos);
+		       fos.close();
+		       System.out.println(" is successfully written");
+		    }
+		    catch(Exception e)
+		    {
+		    }
+		}
 	
 }
